@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { Upload, FileText, Image as ImageIcon, AlertCircle } from "lucide-react";
+import { Upload, FileText, Image as ImageIcon, AlertCircle, Sparkles } from "lucide-react";
 
 interface DocumentDropzoneProps {
   onFileSelect: (file: File) => void;
@@ -37,7 +37,6 @@ export default function DocumentDropzone({ onFileSelect, onUseMock }: DocumentDr
     e.preventDefault();
     e.stopPropagation();
     setIsDragActive(false);
-
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       validateAndProcessFile(e.dataTransfer.files[0]);
     }
@@ -55,7 +54,7 @@ export default function DocumentDropzone({ onFileSelect, onUseMock }: DocumentDr
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[500px] p-8 border-2 border-dashed border-zinc-300 dark:border-zinc-800 rounded-2xl bg-white dark:bg-zinc-950 transition-all duration-300 hover:border-violet-500/50 hover:bg-zinc-50/50 dark:hover:bg-zinc-900/10">
+    <div className="flex flex-col items-center justify-center w-full max-w-2xl mx-auto">
       <input
         ref={fileInputRef}
         type="file"
@@ -64,69 +63,100 @@ export default function DocumentDropzone({ onFileSelect, onUseMock }: DocumentDr
         onChange={handleChange}
       />
 
+      {/* Main Dropzone Card */}
       <div
         onDragEnter={handleDrag}
         onDragOver={handleDrag}
         onDragLeave={handleDrag}
         onDrop={handleDrop}
-        className={`flex flex-col items-center justify-center w-full max-w-lg p-10 text-center rounded-xl cursor-pointer transition-all duration-300 ${
-          isDragActive
-            ? "border-violet-500 bg-violet-500/5 dark:bg-violet-500/10 scale-102"
-            : ""
-        }`}
         onClick={onButtonClick}
+        className={`
+          w-full cursor-pointer rounded-2xl border-2 border-dashed p-12 text-center
+          transition-all duration-200 select-none outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2
+          ${isDragActive
+            ? "border-blue-400 bg-blue-50 scale-[1.01]"
+            : "border-gray-200 bg-white hover:border-blue-300 hover:bg-blue-50/30"
+          }
+        `}
+        style={{ boxShadow: "0 1px 3px 0 rgba(15,23,42,0.06), 0 1px 2px -1px rgba(15,23,42,0.04)" }}
+        role="button"
+        tabIndex={0}
+        aria-label="Upload answer sheet. Click or drag and drop a PDF or PNG/JPG image here."
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onButtonClick();
+          }
+        }}
       >
-        <div className="p-4 bg-violet-500/10 text-violet-600 dark:text-violet-400 rounded-full mb-6 animate-pulse">
-          <Upload className="w-10 h-10" />
+        {/* Upload Icon */}
+        <div className={`
+          mx-auto mb-5 flex items-center justify-center w-16 h-16 rounded-2xl transition-all duration-200
+          ${isDragActive ? "bg-blue-100" : "bg-blue-50"}
+        `}>
+          <Upload className={`w-7 h-7 transition-colors duration-200 ${isDragActive ? "text-blue-600" : "text-blue-500"}`} />
         </div>
 
-        <h3 className="text-xl font-semibold text-zinc-900 dark:text-zinc-50 mb-2">
+        <h3 className="text-xl font-bold text-gray-900 mb-2">
           Upload Scan Sheet
         </h3>
-        <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-6">
-          Drag and drop your PDF or image here, or{" "}
-          <span className="text-violet-600 dark:text-violet-400 font-medium hover:underline">
+        <p className="text-sm text-gray-500 mb-6">
+          Drag and drop your file here, or{" "}
+          <span className="text-blue-600 font-semibold hover:text-blue-700 transition-colors">
             browse files
           </span>
         </p>
 
-        <div className="flex items-center justify-center gap-6 text-zinc-400 text-xs mb-8">
-          <div className="flex items-center gap-1.5 bg-zinc-100 dark:bg-zinc-900 px-3 py-1.5 rounded-lg">
+        {/* Supported formats */}
+        <div className="flex items-center justify-center gap-3 mb-4">
+          <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-lg" aria-label="Supports PDF documents">
             <FileText className="w-4 h-4 text-red-500" />
-            <span>PDF Document</span>
+            <span className="text-xs font-medium text-gray-600">PDF Document</span>
           </div>
-          <div className="flex items-center gap-1.5 bg-zinc-100 dark:bg-zinc-900 px-3 py-1.5 rounded-lg">
-            <ImageIcon className="w-4 h-4 text-emerald-500" />
-            <span>Images (PNG, JPG)</span>
+          <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-lg" aria-label="Supports PNG and JPG images">
+            <ImageIcon className="w-4 h-4 text-green-600" />
+            <span className="text-xs font-medium text-gray-600">PNG / JPG Image</span>
           </div>
         </div>
 
+        {/* Error */}
         {error && (
-          <div className="flex items-center gap-2 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 px-4 py-2.5 rounded-lg mb-6 max-w-md">
+          <div className="flex items-center gap-2 mx-auto max-w-sm text-sm text-red-600 bg-red-50 border border-red-200 px-4 py-2.5 rounded-xl mt-4" role="alert">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span className="text-left font-medium">{error}</span>
           </div>
         )}
       </div>
 
-      <div className="flex flex-col items-center gap-4 mt-2">
-        <div className="relative flex items-center justify-center w-full max-w-md">
-          <hr className="w-40 border-zinc-200 dark:border-zinc-800" />
-          <span className="absolute px-3 text-xs text-zinc-400 dark:text-zinc-500 bg-white dark:bg-zinc-950 font-medium uppercase tracking-wider">
-            Or Use Sample
-          </span>
+      {/* Divider */}
+      <div className="relative flex items-center justify-center w-full max-w-sm my-6">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-gray-200" />
         </div>
-
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onUseMock();
-          }}
-          className="px-6 py-2.5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-900 dark:hover:bg-zinc-800 rounded-xl transition-all duration-200 shadow-sm border border-zinc-200/50 dark:border-zinc-800/50 hover:scale-102"
-        >
-          Load Interactive Mock Examination
-        </button>
+        <span className="relative bg-[#F8FAFC] px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+          or try a sample
+        </span>
       </div>
+
+      {/* Mock Button */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          onUseMock();
+        }}
+        className="
+          group flex items-center gap-2.5 px-6 py-3 text-sm font-semibold
+          text-gray-700 bg-white border border-gray-200 rounded-xl
+          hover:border-blue-300 hover:text-blue-700 hover:bg-blue-50/40
+          transition-all duration-200
+          shadow-sm hover:shadow-md cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2
+        "
+        style={{ boxShadow: "0 1px 2px 0 rgba(15,23,42,0.06)" }}
+        aria-label="Load interactive mock examination sheet with sample scores"
+      >
+        <Sparkles className="w-4 h-4 text-blue-500 group-hover:text-blue-600 transition-colors" />
+        Load Interactive Mock Examination
+      </button>
     </div>
   );
 }

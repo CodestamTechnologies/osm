@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
-import { Loader2, ZoomIn, ZoomOut, RotateCw } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 interface ImageViewerProps {
   fileUrl: string;
@@ -20,16 +19,16 @@ export default function ImageViewer({ fileUrl, scale, rotation, onLoadSuccess }:
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full min-h-[500px] relative bg-zinc-100 dark:bg-zinc-900 overflow-auto p-8 rounded-xl border border-zinc-200 dark:border-zinc-800">
+    <div className="flex flex-col items-center justify-center w-full h-full min-h-[500px] relative bg-slate-100 overflow-auto p-8 rounded-xl border border-gray-200">
       {loading && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-zinc-100/80 dark:bg-zinc-900/80 z-10">
-          <Loader2 className="w-10 h-10 text-violet-600 animate-spin mb-4" />
-          <span className="text-sm font-medium text-zinc-600 dark:text-zinc-400">Loading Scan Sheet Image...</span>
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-100/90 z-10 rounded-xl">
+          <Loader2 className="w-9 h-9 text-blue-600 animate-spin mb-3" />
+          <span className="text-sm font-medium text-gray-500">Loading Scan Sheet Image...</span>
         </div>
       )}
 
       <div
-        className="transition-transform duration-200 ease-out shadow-lg bg-white p-2 rounded-md"
+        className="transition-transform duration-200 ease-out shadow-md bg-white p-2 rounded-lg"
         style={{
           transform: `scale(${scale}) rotate(${rotation}deg)`,
           transformOrigin: "center center",
