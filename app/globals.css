@@ -11,20 +11,22 @@
   
   --color-brand-bg: #F8FAFC;
   --color-brand-card: #FFFFFF;
-  --color-brand-primary: #2563EB;
-  --color-brand-primary-hover: #1D4ED8;
+  --color-brand-primary: #4F46E5;
+  --color-brand-primary-hover: #4338CA; /* Slightly darker shade for hover */
   --color-brand-secondary: #0F172A;
   --color-brand-text-primary: #111827;
-  --color-brand-text-secondary: #6B7280;
-  --color-brand-border: #E5E7EB;
-  --color-brand-success: #16A34A;
+  --color-brand-text-secondary: #64748B;
+  --color-brand-border: #E2E8F0;
+  --color-brand-accent: #D6C4A3;
+  --color-brand-success: #10B981;
   --color-brand-warning: #F59E0B;
-  --color-brand-danger: #DC2626;
+  --color-brand-danger: #EF4444;
 
-  --shadow-brand-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
-  --shadow-brand-md: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+  --shadow-brand-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.03);
+  --shadow-brand-md: 0 4px 14px 0 rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.03);
+  --shadow-brand-lg: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 10px -6px rgba(15, 23, 42, 0.05);
   
-  --radius-brand-xl: 12px;
+  --radius-brand-xl: 16px;
 }
 
 body {

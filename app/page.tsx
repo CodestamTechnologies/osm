@@ -1,5 +1,5 @@
-import OSMWorkspace from "@/components/OSMWorkspace";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return <OSMWorkspace />;
+  redirect("/dashboard");
 }
